@@ -4,6 +4,7 @@
 
 #include <ESP8266WiFi.h>
 
+
 #ifndef STASSID
 #define STASSID ""
 #define STAPSK  ""
@@ -11,6 +12,7 @@
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
+
 
 // Create an instance of the server
 // specify the port to listen on as an argument

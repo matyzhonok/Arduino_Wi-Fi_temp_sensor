@@ -6,8 +6,8 @@
 
 
 #ifndef STASSID
-#define STASSID ""
-#define STAPSK  ""
+#define STASSID "robot"
+#define STAPSK  "SZCP%ca2kQxeqfWk3x2M"
 #endif
 
 const char* ssid = STASSID;

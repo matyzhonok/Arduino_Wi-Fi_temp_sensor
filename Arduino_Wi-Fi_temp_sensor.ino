@@ -61,7 +61,7 @@ void setup() {
 
 void loop() {
   // Получаем время от начала работы
-  String timeAfterStartStr = millis_ToString(millis());
+  
 
 
   
@@ -80,59 +80,18 @@ void loop() {
   Serial.print("Запрос от клиента: ");
   Serial.println(req);
 
-  // Match the request
-  LED_Status = !digitalRead(LED_BUILTIN);
-  Serial.print("Статус светодиода: ");
-  Serial.println(LED_Status);
+  run_Request(req, client);
 
-  if (req.indexOf(F("LED=OFF")) != -1) {
-    SensorLedOff();
-  } else if (req.indexOf(F("LED=ON")) != -1) {
-    SensorLedOn();
-  } else if (req.indexOf(F("favicon.ico")) != -1) {
-    client.stop();
-    Serial.println(F("Favicon!"));
-  } else {  
-    Serial.println(F("invalid request"));
-  }
+  
 
-  // Set LED according to the request
-  digitalWrite(LED_BUILTIN, !LED_Status);
 
   // read/ignore the rest of the request
   // do not client.flush(): it is for output only, see below
-  while (client.available()) {
+ /* while (client.available()) {
     // byte by byte is not very efficient
     client.read();
-  }
+  }*/
 
-  if (req.indexOf(F("LED=status&API=yes")) != -1){
-    String str;
-    if (LED_Status) {
-      str = "On";
-    } else {
-      str = "Off";
-    }
-    print_to_web(str, client, false);
-  } else {
-    String str;
-    // Send the response to the client
-    // it is OK for multiple small client.print/write,
-    // because nagle algorithm will group them into one single packet
-    /*if (LED_Status){
-      str = "{\"sensor\": {\r\n\"name\":\"LED\",\r\n\"status\":\"ON\"\r\n}\r\n}";
-    } else {
-      str = "{\"sensor\": {\r\n\"name\":\"LED\",\r\n\"status\":\"OFF\"\r\n}\r\n}";
-    };*/
-    if (LED_Status){
-      str = "Светодиод ВКЛЮЧЁН. (<a href='http://" + MyIP + "/LED=OFF'>выключить</a>)<br />";
-    } else {
-      str = "Светодиод ВЫКЛЮЧЁН. (<a href='http://" + MyIP + "/LED=ON'>включить</a>)<br />";
-    };
-    str = str + "<p align=\"right\">Времени с начала работы: " + timeAfterStartStr + "</p>";
-
-    print_to_web(str, client, true);
-  }
 
   // The client will actually be *flushed* then disconnected
   // when the function returns and 'client' object is destroyed (out-of-scope)

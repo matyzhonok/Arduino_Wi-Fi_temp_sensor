@@ -1,4 +1,4 @@
- run_Request (String requestString, WiFiClient client) {
+void run_Request (String requestString, WiFiClient client) {
   
   if (requestString.indexOf(F("/main/status")) != -1){
     request_Info(client);

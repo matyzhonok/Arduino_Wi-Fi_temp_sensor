@@ -82,16 +82,6 @@ void loop() {
 
   run_Request(req, client);
 
-  
-
-
-  // read/ignore the rest of the request
-  // do not client.flush(): it is for output only, see below
- /* while (client.available()) {
-    // byte by byte is not very efficient
-    client.read();
-  }*/
-
 
   // The client will actually be *flushed* then disconnected
   // when the function returns and 'client' object is destroyed (out-of-scope)
